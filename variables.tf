@@ -1,12 +1,13 @@
 variable "identifier" {
   description = "The name of the RDS instance"
   type        = string
+  default     = "cmsdefault"
 }
 
 variable "allocated_storage" {
   description = "The allocated storage in gigabytes"
   type        = string
-  default     = null
+  default     = "100"
 }
 
 variable "storage_type" {
@@ -66,13 +67,13 @@ variable "domain_iam_role_name" {
 variable "engine" {
   description = "The database engine to use"
   type        = string
-  default     = null
+  default     = "postgres"
 }
 
 variable "engine_version" {
   description = "The engine version to use"
   type        = string
-  default     = null
+  default     = "14.2"
 }
 
 variable "skip_final_snapshot" {
@@ -102,37 +103,37 @@ variable "final_snapshot_identifier_prefix" {
 variable "instance_class" {
   description = "The instance type of the RDS instance"
   type        = string
-  default     = null
+  default     = "db.m5.large"
 }
 
 variable "db_name" {
   description = "The DB name to create. If omitted, no database is created initially"
   type        = string
-  default     = null
+  default     = "myfirstdb"
 }
 
 variable "username" {
   description = "Username for the master DB user"
   type        = string
-  default     = null
+  default     = "myfirstuser"
 }
 
 variable "password" {
   description = "Password for the master DB user. Note that this may show up in logs, and it will be stored in the state file"
   type        = string
-  default     = null
+  default     = "test!23"
 }
 
 variable "port" {
   description = "The port on which the DB accepts connections"
   type        = string
-  default     = null
+  default     = "5432"
 }
 
 variable "vpc_security_group_ids" {
   description = "List of VPC security groups to associate"
   type        = list(string)
-  default     = []
+  default     = ["sg-081a896c135e7344e"]
 }
 
 variable "availability_zone" {
@@ -150,7 +151,7 @@ variable "multi_az" {
 variable "iops" {
   description = "The amount of provisioned IOPS. Setting this implies a storage_type of 'io1'"
   type        = number
-  default     = 0
+  default     = "3000"
 }
 
 variable "publicly_accessible" {
@@ -271,13 +272,13 @@ variable "db_subnet_group_tags" {
 variable "create_db_subnet_group" {
   description = "Whether to create a database subnet group"
   type        = bool
-  default     = false
+  default     = true
 }
 
 variable "db_subnet_group_name" {
   description = "Name of DB subnet group. DB instance will be created in the VPC associated with the DB subnet group. If unspecified, will be created in the default VPC"
   type        = string
-  default     = null
+  default     = "myrdssubnetgroup"
 }
 
 variable "db_subnet_group_use_name_prefix" {
@@ -289,13 +290,13 @@ variable "db_subnet_group_use_name_prefix" {
 variable "db_subnet_group_description" {
   description = "Description of the DB subnet group to create"
   type        = string
-  default     = null
+  default     = "This is my default subnet group"
 }
 
 variable "subnet_ids" {
   description = "A list of VPC subnet IDs"
   type        = list(string)
-  default     = []
+  default     = ["subnet-0a9f90b9da4a7037a", "subnet-008479c3a1acbefbd"]
 }
 
 # DB parameter group
@@ -326,7 +327,7 @@ variable "parameter_group_description" {
 variable "family" {
   description = "The family of the DB parameter group"
   type        = string
-  default     = null
+  default     = "postgres14"
 }
 
 variable "parameters" {
@@ -353,6 +354,11 @@ variable "option_group_use_name_prefix" {
   type        = bool
   default     = true
 }
+
+variable "option_group_description" {
+  description = "The description of the option group"
+  type        = string
+  default     = null
 
 variable "option_group_description" {
   description = "The description of the option group"
@@ -482,10 +488,4 @@ variable "cloudwatch_log_group_kms_key_id" {
   description = "The ARN of the KMS Key to use when encrypting log data"
   type        = string
   default     = null
-}
-
-variable "putin_khuylo" {
-  description = "Do you agree that Putin doesn't respect Ukrainian sovereignty and territorial integrity? More info: https://en.wikipedia.org/wiki/Putin_khuylo!"
-  type        = bool
-  default     = true
 }
